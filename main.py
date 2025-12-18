@@ -1,10 +1,10 @@
 import json
 import string
-from typing import Any
+from typing import Annotated, Any
 
 from pydantic import (
     BaseModel,
-    PositiveFloat,
+    Field,
     field_validator,
     model_validator,
 )
@@ -39,7 +39,7 @@ class Book(BaseModel, frozen=True):
     author: str
     author2: Author | None = None
     publisher: str
-    price: PositiveFloat
+    price: Annotated[float, Field(gt=0)]
     isbn_10: str | None = None
     isbn_13: str | None = None
 
@@ -80,13 +80,13 @@ class Book(BaseModel, frozen=True):
 
 def main():
     """
-    Basic example showing how to read and validate data from a file using Pydantic.
+    Example showing how to read and validate data from a file using Pydantic.
     """
 
     # read books from json and print
     with open("data.json") as file:
         data = json.load(file)
-        books = [Book(**item) for item in data]
+        books = [Book(**item).model_dump(exclude_defaults=True) for item in data]
         print(books[0])
 
 
