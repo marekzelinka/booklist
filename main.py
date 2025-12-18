@@ -31,7 +31,7 @@ class Author(BaseModel):
     verified: bool
 
 
-class Book(BaseModel, frozen=True, str_to_lower=True):
+class Book(BaseModel, frozen=True):
     """Models a book that you can read from a file."""
 
     title: str
